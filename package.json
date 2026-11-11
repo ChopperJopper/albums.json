@@ -1,0 +1,22 @@
+{
+    "name": "semesterprojekt",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "create-db": "node db/createDb.js",
+        "dev-server": "nodemon backend/server.js",
+        "prod-server": "node backend/server.js"
+    },
+    "dependencies": {
+        "dotenv": "18.0.5",
+        "express": "5.2.1",
+        "pg": "8.23.1",
+        "pg-upload": "0.0.10"
+    },
+    "devDependencies": {
+        "nodemon": "3.1.14"
+    },
+    "allowScripts": {
+        "fsevents@2.3.3": true
+    }
+}
