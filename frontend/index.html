@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nextrack</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Nextrack</h1>
+
+    <div id="start_side" hidden>
+        <button class="genre_but">genre</button>
+        <button class="genre_but">tysk</button>
+        <button class="genre_but">dansk</button>
+    </div>
+
+    <div id="for_side"> 
+        <div id="øverste_div">
+            <button id="setting_but">
+                <img src="billeder/Screenshot from 2026-10-07 12-37-32.png">
+            </button>
+            <input id="search_bar" type="text" placeholder="Search for a song">
+            <button id="prof_but">
+                <img src="billeder/Screenshot from 2026-10-07 12-37-32.png">
+                <p>Profil</p>
+            </button>
+        </div>
+
+        <div id="main_div">
+            <img src="billeder/Screenshot from 2026-10-07 12-37-32.png" alt="spildende sang" id ="spildende_sang">
+            <progress id="progress_bar" value="0" max="100"></progress>
+            <button id="prev_but">prev</button>
+            <button id="play_but">play</button>
+            <button id="next_but">next</button>
+            <button id="shuffle_but">shuffle</button>
+            <button id="like_but">repeat</button>
+            <button id="repeat_but">like</button>
+        </div>
+    </div>
+
+    <div id="profil" hidden>
+        <button type="button" id="back_but">
+            <p>back_but</p>
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
