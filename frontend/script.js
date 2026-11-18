@@ -26,3 +26,5 @@ genreBut.forEach((allButton) => {
         profBut.hidden = false
     })
 })  
+
+onGetTracks()
