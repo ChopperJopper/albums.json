@@ -9,14 +9,10 @@
 <body>
     <h1>Nextrack</h1>
 
-    <div id="start_side" hidden>
-        <button class="genre_but">genre</button>
-        <button class="genre_but">tysk</button>
-        <button class="genre_but">dansk</button>
-    </div>
+    <div id="start_side" hidden></div>
 
     <div id="for_side"> 
-        <div id="øverste_div">
+        <div id="overste_div">
             <button id="setting_but">
                 <img src="billeder/Screenshot from 2026-10-07 12-37-32.png">
             </button>
@@ -28,7 +24,11 @@
         </div>
 
         <div id="main_div">
+            <div id="search_result" hidden>
+                <ul id="track_list"></ul>
+            </div>
             <img src="billeder/Screenshot from 2026-10-07 12-37-32.png" alt="spildende sang" id ="spildende_sang">
+            <p id="sang_titel"></p>
             <progress id="progress_bar" value="0" max="100"></progress>
             <button id="prev_but">prev</button>
             <button id="play_but">play</button>
