@@ -82,8 +82,9 @@ function addGenre(genre) {
 async function vaelgGenre(genreId) {
   console.log("Valgt genre med id", genreId);
   startSide.hidden = true;
-  const resultat = await fetch(`/api/genres/${genreId}/tracks`)
-  console.log(resultat)
+  const resultat = await fetch(`/api/genres/${genreId}/randomtrack`);
+
+  console.log(resultat);
 }
 
 profBut.addEventListener("click", () => {

@@ -11,8 +11,8 @@ server.use(express.static('frontend')); // forbinder til frontend
 server.get('/api/tracks', onGetTracks);
 server.get('/api/genres', onGetGenres);
 server.get('/api/albums', onGetAlbums);
-server.get('/api/genres/:genreId/tracks', onGetTrackFromGenre);
-
+/*server.get('/api/genres/:genreId/tracks', onGetTrackFromGenre);*/
+server.get('/api/genres/:genreId/randomtrack', onGetRandomTrackFromGenre);
 server.listen(port, onServerReady);
 
 async function onGetTracks(request, response) {
@@ -55,12 +55,24 @@ async function onGetTracks(request, response) {
         response.json(dbResult.rows)
  }
 
- async function onGetTrackFromGenre(request, response){
+ /*async function onGetTrackFromGenre(request, response){
         const genreId = request.params.genreId;
         const dbResult = await db.query(`
                 select  title
                 from tracks 
                 where genre_id = $1
+        `, [genreId]);
+        response.json(dbResult.rows);
+ }*/
+ 
+ async function onGetRandomTrackFromGenre(request, response){
+        const genreId = request.params.genreId;
+          const dbResult = await db.query(`
+                select  title
+                from tracks 
+                where genre_id = $1
+                order by random()
+                limit 10
         `, [genreId]);
         response.json(dbResult.rows);
  }
