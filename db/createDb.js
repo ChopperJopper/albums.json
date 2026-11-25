@@ -87,7 +87,8 @@ await db.query(`
 await db.query(`
     create table liked_songs (
         user_id integer not null references users (user_id),
-        track_id integer not null references tracks (track_id)
+        track_id integer not null references tracks (track_id),
+        primary key (user_id, track_id)
     )
 `);
 await db.query(`

@@ -16,7 +16,7 @@ server.get('/api/genres/:genreId/randomtrack', onGetRandomTrackFromGenre);
 server.get('/api/tracks/search', onGetTracksBySearch);
 server.get('/api/users', onGetUsers);
 server.get('/api/users/:userId/likedSongs', onGetLikedSongs);
-server.put('/api/users/:userId/tracks/:trackId/addsongs', onPutLikedSongsByUser);
+server.put('/api/users/:userId/tracks/:trackId', onPutLikedSongsByUser);
 server.listen(port, onServerReady);
 
 async function onGetTracks(request, response) {
@@ -72,7 +72,9 @@ async function onGetTracks(request, response) {
  async function onGetRandomTrackFromGenre(request, response){
         const genreId = request.params.genreId;
           const dbResult = await db.query(`
-                select  title
+                select  title,
+                        track_id as id,
+                        milliseconds
                 from tracks 
                 where genre_id = $1
                 order by random()
