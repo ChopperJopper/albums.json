@@ -8,6 +8,7 @@ const mainDiv = document.getElementById("main_div")
 const forside = document.getElementById("for_side")
 const sangTitel = document.getElementById("sang_titel")
 const progressBar = document.getElementById("progress_bar")
+const likedSongs = document.getElementById("liked_songs")
 // vores knapper
 const profBut = document.getElementById("prof_but")
 const backBut = document.getElementById("back_but")
@@ -16,10 +17,13 @@ const profilButs = document.getElementById("profil_buts")
 const nextBut = document.getElementById("next_but")
 const prevBut = document.getElementById("prev_but")
 const likeBut = document.getElementById("like_but")
+const shuffleBut = document.getElementById("shuffle_but")
+const playBut = document.getElementById("play_but")
 
 let que = []
 let queposition = 0
 let newUserId = null
+let currentGenre = null
 
 // database arrays
 
@@ -61,8 +65,15 @@ function addSongSearch(track) {
   button.textContent = track.title;
 
 
-  button.addEventListener("click", function(){
+  button.addEventListener("click", async function(){
     valgSang(track.id)
+    que = []
+    const resultat = await fetch(`/api/genre/${track.genre_id}/tracks`)
+    const genreSang = await resultat.json();
+    que.push(track, ...genreSang)
+    console.log(que);
+    sangTitel.innerHTML = track.title;
+    currentGenre = track.genre_id;
   });
   li.appendChild(button);
   trackList.appendChild(li);
@@ -85,6 +96,7 @@ function addGenre(genre) {
 
   button.addEventListener("click", function () {
     vaelgGenre(genre.id)
+    currentGenre = genre.id;
   })
 
   startSide.appendChild(button);
@@ -151,12 +163,21 @@ async function profilBut(){
   } 
 }
 
-  function loadProfil(userId) {
+  async function loadProfil(userId) {
   console.log("valgt bruger med id", userId)
+  newUserId = userId;
+  const resultat = await fetch(`/api/users/${userId}/likedSongs`)
+  const likes = await resultat.json()
+  likedSongs.innerHTML="";
+    for(const like of likes){
+      const li = document.createElement("li");
+      li.textContent = like.title;
+      likedSongs.appendChild(li);
+
+    }
   profilButs.hidden = true;
+  likedSongs.hidden = false;
   profilButs.innerHTML = "";
-  newUserId = userId
-  console.log(newUserId)
   }
 
 profBut.addEventListener("click", () => {
@@ -176,7 +197,21 @@ likeBut.addEventListener("click", () => {
   likesang(newUserId, que[queposition].id)
 })
 
+shuffleBut.addEventListener("click", async () =>{
+  const resultat = await fetch(`/api/genres/${currentGenre}/randomtrack`);
+  que = await resultat.json()
+  console.log(que)
+  sangTitel.innerHTML = que[0].title
+
+})
+
+playBut.addEventListener("click", () =>{
+  
+})
+
 async function likesang(user, sang){
+  console.log(user);  
+  console.log(sang);
   const resultat = await fetch(`/api/users/${user}/tracks/${sang}`,
   {method: 'PUT'})
   console.log("det gik",resultat.ok)

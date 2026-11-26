@@ -17,6 +17,7 @@ server.get('/api/tracks/search', onGetTracksBySearch);
 server.get('/api/users', onGetUsers);
 server.get('/api/users/:userId/likedSongs', onGetLikedSongs);
 server.put('/api/users/:userId/tracks/:trackId', onPutLikedSongsByUser);
+server.get('/api/genre/:genreId/tracks', onGetTracksForGenre);
 server.listen(port, onServerReady);
 
 async function onGetTracks(request, response) {
@@ -74,6 +75,7 @@ async function onGetTracks(request, response) {
           const dbResult = await db.query(`
                 select  title,
                         track_id as id,
+                        genre_id,
                         milliseconds
                 from tracks 
                 where genre_id = $1
@@ -115,8 +117,10 @@ async function onGetTracks(request, response) {
  async function onGetLikedSongs(request, response){
         const userId = request.params.userId;
         const dbResult = await db.query(`
-                select track_id
+                select  track_id,
+                        tracks.title
                 from liked_songs
+                join tracks using (track_id)
                 where user_id = $1
                 `, [userId]);
         response.json(dbResult.rows)
@@ -131,6 +135,21 @@ async function onPutLikedSongsByUser(request, response){
                 on conflict (user_id, track_id) do nothing
                 `, [userId, trackId]);
         response.json(dbResult.rows)
+}
+
+async function onGetTracksForGenre(request, response) {
+    const genreId = request.params.genreId;
+    const dbResult = await db.query(`
+        select   track_id as id,
+                 title,
+                 genre_id,
+                 milliseconds
+        from     tracks
+        where    genre_id = $1
+        order by random()
+        limit 10
+    `, [genreId]);
+    response.json(dbResult.rows);
 }
 
  function onServerReady() {
